@@ -1,0 +1,15 @@
+name: aws/static_website
+description: Static website on AWS using private S3 bucket and CloudFront distribution.
+cloud: aws
+use_case: static_website
+required_vars:
+  - project_name
+  - region
+optional_vars:
+  - environment
+  - price_class
+  - force_destroy
+  - tags
+outputs:
+  - endpoint_url
+  - resource_id

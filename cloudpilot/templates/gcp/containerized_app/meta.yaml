@@ -1,0 +1,20 @@
+name: gcp/containerized_app
+description: Containerized app on GCP Cloud Run with public HTTP access.
+cloud: gcp
+use_case: containerized_app
+required_vars:
+  - project_name
+  - project_id
+  - region
+  - container_image
+optional_vars:
+  - environment
+  - container_port
+  - min_instance_count
+  - max_instance_count
+  - cpu_limit
+  - memory_limit
+  - labels
+outputs:
+  - endpoint_url
+  - resource_id

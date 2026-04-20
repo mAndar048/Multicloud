@@ -1,0 +1,49 @@
+static_website:
+  low:
+    aws: aws/static_website
+    gcp: gcp/static_website
+    digitalocean: digitalocean/static_website
+  medium:
+    aws: aws/static_website
+    gcp: gcp/static_website
+    digitalocean: digitalocean/static_website
+  high:
+    aws: aws/static_website
+    gcp: gcp/static_website
+    digitalocean: digitalocean/static_website
+
+containerized_app:
+  low:
+    aws: aws/containerized_app
+    gcp: gcp/containerized_app
+    digitalocean: null
+  medium:
+    aws: aws/containerized_app
+    gcp: gcp/containerized_app
+    digitalocean: null
+  high:
+    aws: aws/containerized_app
+    gcp: gcp/containerized_app
+    digitalocean: null
+
+database:
+  low:
+    aws: aws/database
+    gcp: gcp/database
+    digitalocean: null
+  medium:
+    aws: aws/database
+    gcp: gcp/database
+    digitalocean: null
+  high:
+    aws: aws/database
+    gcp: gcp/database
+    digitalocean: null
+
+thresholds:
+  low:
+    max_users: 1000
+  medium:
+    max_users: 50000
+  high:
+    max_users: 999999999

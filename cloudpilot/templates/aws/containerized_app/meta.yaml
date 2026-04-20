@@ -1,0 +1,19 @@
+name: aws/containerized_app
+description: Containerized app on AWS ECS Fargate with an internet-facing Application Load Balancer.
+cloud: aws
+use_case: containerized_app
+required_vars:
+  - project_name
+  - region
+  - container_image
+optional_vars:
+  - environment
+  - container_port
+  - desired_count
+  - task_cpu
+  - task_memory
+  - health_check_path
+  - tags
+outputs:
+  - endpoint_url
+  - resource_id

@@ -1,0 +1,17 @@
+name: gcp/static_website
+description: Static website on GCP using Cloud Storage and Cloud CDN via backend bucket.
+cloud: gcp
+use_case: static_website
+required_vars:
+  - project_name
+  - project_id
+  - region
+optional_vars:
+  - environment
+  - main_page_suffix
+  - not_found_page
+  - force_destroy
+  - labels
+outputs:
+  - endpoint_url
+  - resource_id

@@ -1,0 +1,16 @@
+name: digitalocean/static_website
+description: Static website on DigitalOcean App Platform using a single managed app resource.
+cloud: digitalocean
+use_case: static_website
+required_vars:
+  - project_name
+  - region
+optional_vars:
+  - environment
+  - instance_size_slug
+  - container_port
+  - image_repository
+  - image_tag
+outputs:
+  - endpoint_url
+  - resource_id

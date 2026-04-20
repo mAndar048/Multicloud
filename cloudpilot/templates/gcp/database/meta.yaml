@@ -1,0 +1,21 @@
+name: gcp/database
+description: Managed MySQL database on GCP Cloud SQL with backups enabled.
+cloud: gcp
+use_case: database
+required_vars:
+  - project_name
+  - project_id
+  - region
+  - db_password
+optional_vars:
+  - environment
+  - db_name
+  - db_username
+  - instance_tier
+  - availability_type
+  - ipv4_enabled
+  - deletion_protection
+  - labels
+outputs:
+  - endpoint_url
+  - resource_id

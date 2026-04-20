@@ -1,0 +1,25 @@
+name: aws/database
+description: Managed MySQL database on AWS RDS with encrypted storage and subnet isolation.
+cloud: aws
+use_case: database
+required_vars:
+  - project_name
+  - region
+  - db_password
+optional_vars:
+  - environment
+  - db_name
+  - db_username
+  - instance_class
+  - engine_version
+  - allocated_storage
+  - max_allocated_storage
+  - publicly_accessible
+  - multi_az
+  - deletion_protection
+  - skip_final_snapshot
+  - allowed_cidrs
+  - tags
+outputs:
+  - endpoint_url
+  - resource_id

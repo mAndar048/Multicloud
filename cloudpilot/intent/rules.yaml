@@ -1,0 +1,50 @@
+use_case:
+  static_website:
+    - website
+    - web app
+    - frontend
+    - react
+    - next
+    - html
+  containerized_app:
+    - docker
+    - container
+    - api
+    - backend
+    - microservice
+  database:
+    - database
+    - db
+    - mysql
+    - postgres
+    - storage
+
+traffic_tier:
+  low:
+    - small
+    - personal
+    - startup
+    - "\\b\\d{1,3}\\s*(users|people)\\b"
+  medium:
+    - "\\b[1-9]\\d{3,4}\\s*(users|people)\\b"
+  high:
+    - enterprise
+    - large scale
+    - "\\b[1-9]\\d{5,}\\b"
+
+cloud:
+  aws:
+    - aws
+    - amazon
+    - s3
+    - ec2
+    - lambda
+  gcp:
+    - gcp
+    - google
+    - cloud run
+    - gke
+  digitalocean:
+    - digitalocean
+    - do
+    - droplet

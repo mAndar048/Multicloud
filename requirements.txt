@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pyyaml
+python-dotenv
+anthropic
+celery
+redis
+streamlit
+pytest

@@ -1,0 +1,41 @@
+ASK_USECASE:
+  prompt: "What are you deploying?"
+  options:
+    - label: "Static Website"
+      value: "static_website"
+    - label: "Containerized App (Docker)"
+      value: "containerized_app"
+    - label: "Database"
+      value: "database"
+
+ASK_SCALE:
+  prompt: "How many users do you expect?"
+  options:
+    - label: "Up to 1,000"
+      value: "low"
+    - label: "1,000 - 50,000"
+      value: "medium"
+    - label: "50,000+"
+      value: "high"
+
+ASK_CLOUD:
+  prompt: "Which cloud provider?"
+  options:
+    - label: "AWS"
+      value: "aws"
+    - label: "GCP"
+      value: "gcp"
+    - label: "DigitalOcean"
+      value: "digitalocean"
+
+ASK_REGION:
+  prompt: "Which region should we deploy to?"
+  options: []
+
+CONFIRM:
+  prompt: "Ready to deploy with this configuration?"
+  options:
+    - label: "Yes, deploy"
+      value: "confirm"
+    - label: "No, edit"
+      value: "edit"
