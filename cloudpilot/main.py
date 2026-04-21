@@ -153,12 +153,16 @@ def destroy_session(session_id: str) -> dict[str, str]:
     if session_id not in session_store:
         raise HTTPException(status_code=404, detail="Session not found")
 
+    session = session_store[session_id]["session"]
+    credentials = session_store[session_id]["credentials"]
+    intent_dict = session.intent.__dict__
+
     if _is_redis_available():
         # Lazy import to avoid blocking on Celery connection during startup
         try:
             from cloudpilot.jobs.tasks import destroy_task
 
-            task = destroy_task.delay(session_id)
+            task = destroy_task.delay(session_id, intent_dict, credentials)
             return {"job_id": task.id}
         except Exception as e:
             raise HTTPException(
@@ -175,6 +179,8 @@ def destroy_session(session_id: str) -> dict[str, str]:
         kwargs={
             "job_id": job_id,
             "session_id": session_id,
+            "intent_dict": intent_dict,
+            "credentials_dict": credentials,
             "status_writer": _update_local_job_status,
         },
         daemon=True,

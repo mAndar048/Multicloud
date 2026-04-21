@@ -125,6 +125,8 @@ def execute_deploy_job(
 def execute_destroy_job(
     job_id: str,
     session_id: str,
+    intent_dict: dict[str, Any],
+    credentials_dict: dict[str, Any],
     status_writer: Callable[[str, str, list[str] | None, str | None], None] = _update_job_status,
 ) -> dict[str, Any]:
     """Run a destroy job with either Redis-backed or local status updates."""
@@ -133,15 +135,19 @@ def execute_destroy_job(
     try:
         status_writer(job_id, "RUNNING", logs, None)
 
-        # For destroy, we need to know the workspace and credentials
-        # This is simplified; in real impl, store workspace path and creds per session
+        intent = IntentObject(**intent_dict)
+
+        adapter_class = ADAPTER_REGISTRY.get(intent.cloud)
+        if not adapter_class:
+            raise ValueError(f"No adapter for cloud: {intent.cloud}")
+        adapter = adapter_class()
+        provider_credentials = _resolve_provider_credentials(intent, credentials_dict)
+        env_vars = adapter.get_env_vars(provider_credentials)
+
         workspace_dir = Path(tempfile.gettempdir()) / "cloudpilot" / session_id
 
         if not workspace_dir.exists():
             raise ValueError(f"Workspace not found for session: {session_id}")
-
-        # Assume credentials are stored or passed; for now, empty
-        env_vars = {}
 
         run_destroy(workspace_dir, env_vars)
         logs.append("Terraform destroy completed")
@@ -173,9 +179,16 @@ def deploy_task(self, session_id: str, intent_dict: dict[str, Any], credentials_
 
 
 @app.task(bind=True, name="cloudpilot.destroy_task")
-def destroy_task(self, session_id: str) -> dict[str, Any]:
+def destroy_task(
+    self,
+    session_id: str,
+    intent_dict: dict[str, Any],
+    credentials_dict: dict[str, Any],
+) -> dict[str, Any]:
     return execute_destroy_job(
         self.request.id,
         session_id,
+        intent_dict,
+        credentials_dict,
         _update_job_status,
     )
