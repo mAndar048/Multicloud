@@ -1,17 +1,38 @@
 """Streamlit UI for CloudPilot conversation flow."""
 
+import os
 import time
 
 import requests
 import streamlit as st
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = os.getenv("CLOUDPILOT_API_URL", "http://127.0.0.1:8000")
+
+
+def _backend_is_available() -> bool:
+    try:
+        response = requests.get(f"{BASE_URL}/health", timeout=2)
+        return response.status_code == 200
+    except requests.RequestException:
+        return False
+
+
+def _show_backend_start_hint() -> None:
+    st.info(
+        "Backend API is not reachable. Start it in another terminal with:\n"
+        "python -m uvicorn cloudpilot.main:app --host 127.0.0.1 --port 8000 --reload"
+    )
 
 
 def home():
     """Home screen: input description and credentials."""
     st.title("CloudPilot - Multi-Cloud Infrastructure Automation")
     st.write("Describe your infrastructure needs in plain English, and we'll deploy it for you.")
+
+    if _backend_is_available():
+        st.success(f"Backend connected: {BASE_URL}")
+    else:
+        _show_backend_start_hint()
 
     description = st.text_input(
         "What do you want to deploy?",
@@ -70,6 +91,7 @@ def home():
 
         except requests.RequestException as e:
             st.error(f"Failed to start session: {e}")
+            _show_backend_start_hint()
 
 
 def conversation():

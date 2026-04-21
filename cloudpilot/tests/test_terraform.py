@@ -104,3 +104,19 @@ def test_run_destroy_executes_destroy(monkeypatch: pytest.MonkeyPatch, tmp_path)
 
     assert calls[0][1] == "init"
     assert calls[1][1] == "destroy"
+
+
+def test_run_deployment_reports_missing_terraform_binary(
+    monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
+    template = tmp_path / "template"
+    workspace = tmp_path / "workspace"
+    _create_template_dir(template)
+
+    def fake_run(command, **kwargs):
+        raise FileNotFoundError("terraform not found")
+
+    monkeypatch.setattr(terraform_runner.subprocess, "run", fake_run)
+
+    with pytest.raises(TerraformError, match="Terraform executable not found"):
+        terraform_runner.run_deployment(template, workspace)

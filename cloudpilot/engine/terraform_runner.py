@@ -18,19 +18,33 @@ class TerraformError(Exception):
         self.command = command or []
 
 
+def _templates_root() -> Path:
+    return Path(__file__).resolve().parents[1] / "templates"
+
+
 def _terraform_bin() -> str:
     return os.getenv("TERRAFORM_BIN", "terraform")
 
 
 def _run_cmd(command: list[str], cwd: Path, env: dict[str, str]) -> str:
-    completed = subprocess.run(
-        command,
-        cwd=str(cwd),
-        env=env,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=str(cwd),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except FileNotFoundError as exc:
+        binary = command[0] if command else _terraform_bin()
+        raise TerraformError(
+            "Terraform executable not found. "
+            f"Attempted binary '{binary}'. "
+            "Install Terraform and ensure it is available on PATH, "
+            "or set TERRAFORM_BIN to the full executable path.",
+            command=command,
+        ) from exc
 
     if completed.returncode != 0:
         stderr = (completed.stderr or "").strip()
@@ -50,6 +64,8 @@ def _run_cmd(command: list[str], cwd: Path, env: dict[str, str]) -> str:
 
 def _prepare_workspace(template_path: str | Path, workspace_dir: str | Path) -> Path:
     source = Path(template_path)
+    if not source.is_absolute():
+        source = _templates_root() / source
     destination = Path(workspace_dir)
 
     if not source.exists() or not source.is_dir():

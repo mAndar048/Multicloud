@@ -7,11 +7,14 @@ import uuid
 from typing import Any, Optional
 
 import redis
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from cloudpilot.conversation.state_machine import ConversationSession
 from cloudpilot.intent.parser import parse
+
+load_dotenv()
 
 
 class SessionStartRequest(BaseModel):
