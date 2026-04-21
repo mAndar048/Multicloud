@@ -1,5 +1,7 @@
 """Template selection logic."""
 
+from pathlib import Path
+
 from cloudpilot.intent.schema import IntentObject
 from cloudpilot.knowledge_base.loader import load_catalog
 
@@ -41,4 +43,5 @@ def select_template(intent: IntentObject) -> str:
             f"cloud='{intent.cloud}'."
         )
 
-    return mapping
+    templates_root = Path(__file__).resolve().parents[1] / "templates"
+    return str(templates_root / mapping)

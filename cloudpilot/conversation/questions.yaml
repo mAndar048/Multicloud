@@ -30,7 +30,29 @@ ASK_CLOUD:
 
 ASK_REGION:
   prompt: "Which region should we deploy to?"
-  options: []
+  options:
+    - label: "AWS US East (N. Virginia)"
+      value: "us-east-1"
+    - label: "AWS US West (Oregon)"
+      value: "us-west-2"
+    - label: "AWS Europe (Ireland)"
+      value: "eu-west-1"
+    - label: "AWS Asia Pacific (Tokyo)"
+      value: "ap-northeast-1"
+    - label: "GCP US Central"
+      value: "us-central1"
+    - label: "GCP Europe West"
+      value: "europe-west1"
+    - label: "GCP Asia East"
+      value: "asia-east1"
+    - label: "DigitalOcean New York"
+      value: "nyc3"
+    - label: "DigitalOcean San Francisco"
+      value: "sfo3"
+    - label: "DigitalOcean London"
+      value: "lon1"
+    - label: "DigitalOcean Singapore"
+      value: "sgp1"
 
 CONFIRM:
   prompt: "Ready to deploy with this configuration?"
